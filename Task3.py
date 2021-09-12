@@ -5,11 +5,12 @@ Provided file called CPCT02220079.annotated.processed.vcf doesn't consist any da
 
 import allel
 import matplotlib.pyplot as plt
+import numpy as np
 
 #with open('CPCT02220079.annotated.processed.vcf', mode='r') as vcf:
 #    print(vcf.read())
 
-
+#Read the VCF file, using needed parameters: chromosom 12, positions 112204691-112247789
 callset = allel.read_vcf('CPCT02220079.annotated.processed.vcf', region='12:112204691-112247789')
 chrom = callset['variants/CHROM']
 print(chrom)
@@ -19,6 +20,7 @@ print(chrom)
     chrom = callset['variants/CHROM']
 TypeError: 'NoneType' object is not subscriptable'''
 
+#To create a vcf file and save the variants
 output = open("output.vcf", "w")
 output.write(chrom)
 
@@ -33,25 +35,23 @@ for rec in vcf_in.fetch('chr12', 112204691, 112247789):
 
 
 
-
-'''Draw histograms of the insertion and deletion lengths in the input file for each of the chromosomes. 
-Place the drawing and table in the repository.
-
-
+'''
 To count insertions and deletions from vcf file the BEDOPS 2.4 (https://github.com/bedops/bedops) program was installed and run with following commands
 in the bash terminal:
 
-(base) MacBook-Pro-6:~ sandra.goldowska$ vcf2bed --snvs < /Users/sandra.goldowska/MNM/CPCT02220079.annotated.processed.vcf | wc -l
+(base) MacBook-Pro-6:~ sandra.goldowska$ vcf2bed --snvs < CPCT02220079.annotated.processed.vcf | wc -l
        0
-(base) MacBook-Pro-6:~ sandra.goldowska$ vcf2bed --insertions < /Users/sandra.goldowska/MNM/CPCT02220079.annotated.processed.vcf > insertions.bed | wc -l
+(base) MacBook-Pro-6:~ sandra.goldowska$ vcf2bed --insertions < CPCT02220079.annotated.processed.vcf > insertions.bed | wc -l
        0
-(base) MacBook-Pro-6:~ sandra.goldowska$ vcf2bed --deletions < /Users/sandra.goldowska/MNM/CPCT02220079.annotated.processed.vcf > deletions.bed | wc -l
+(base) MacBook-Pro-6:~ sandra.goldowska$ vcf2bed --deletions < CPCT02220079.annotated.processed.vcf > deletions.bed | wc -l
        0
        
-There is also a possibility to use a vcfstats method from vcflib.
+The result is as follow because of the content of the file. There is also a possibility to use a vcfstats method from vcflib.
 '''
 
-#To draw histograms
-# x = [insertions, value2, value3,....]
-# # plt.hist(x, bins = 10)
-# # plt.show()
+#To draw histograms for an example (randomly generated) data because of luck of yours
+indels = np.random.randn(10000)
+plt.hist(indels, histtype='bar', bins=50)
+plt.xlabel("Indel size (bp)")
+plt.ylabel("Number of indels")
+plt.show()
